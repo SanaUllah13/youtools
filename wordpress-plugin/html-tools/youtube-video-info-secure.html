@@ -36,8 +36,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>🎥 YouTube Video Info Extractor 🔒</h1>
-        <p class="description">Extract detailed information about any YouTube video. API is secured via proxy.</p>
+        <h1>🎥 YouTube Video Info Extractor</h1>
+        <p class="description">Extract detailed information about any YouTube video including title, description, views, likes, duration, and more.</p>
 
         <form id="videoForm">
             <div class="form-group">
@@ -93,6 +93,12 @@
                     }
                 });
 
+                // Check if response is actually JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('API proxy not configured. Please upload api-proxy.php to your server first.');
+                }
+                
                 const data = await response.json();
                 console.log('API Response:', data);
 
