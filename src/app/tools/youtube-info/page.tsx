@@ -159,10 +159,16 @@ export default function YouTubeInfoPage() {
 
             {/* Additional Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              {result.likes && (
+              {result.likes !== undefined && result.likes !== null && (
                 <div className="text-center p-3 bg-green-50 rounded-md">
                   <div className="text-lg font-semibold text-green-600">{result.likes.toLocaleString()}</div>
                   <div className="text-sm text-green-700">Likes</div>
+                </div>
+              )}
+              {result.comments !== undefined && result.comments !== null && (
+                <div className="text-center p-3 bg-indigo-50 rounded-md">
+                  <div className="text-lg font-semibold text-indigo-600">{result.comments.toLocaleString()}</div>
+                  <div className="text-sm text-indigo-700">Comments</div>
                 </div>
               )}
               {result.category && (
