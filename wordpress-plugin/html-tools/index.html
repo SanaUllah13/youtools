@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTools - Free YouTube & SEO Tools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 50px; color: white; }
+        .header h1 { font-size: 48px; margin-bottom: 15px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        .header p { font-size: 20px; opacity: 0.9; }
+        .category { margin-bottom: 50px; }
+        .category-title { color: white; font-size: 32px; margin-bottom: 25px; text-align: center; }
+        .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .tool-card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; display: block; }
+        .tool-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+        .tool-icon { font-size: 40px; margin-bottom: 15px; }
+        .tool-title { font-size: 20px; font-weight: 600; color: #333; margin-bottom: 10px; }
+        .tool-desc { font-size: 14px; color: #666; line-height: 1.6; }
+        .footer { text-align: center; margin-top: 50px; color: white; opacity: 0.8; }
+        @media (max-width: 768px) { .header h1 { font-size: 36px; } .tools-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ YouTools</h1>
+            <p>30+ Free Tools for YouTube Creators & SEO Professionals</p>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">📺 YouTube Tools</h2>
+            <div class="tools-grid">
+                <a href="youtube-video-info.html" class="tool-card">
+                    <div class="tool-icon">🎥</div>
+                    <div class="tool-title">Video Info Extractor</div>
+                    <div class="tool-desc">Extract detailed information about any YouTube video including title, views, likes, and more.</div>
+                </a>
+                <a href="youtube-tag-extractor.html" class="tool-card">
+                    <div class="tool-icon">🏷️</div>
+                    <div class="tool-title">Tag Extractor</div>
+                    <div class="tool-desc">Extract all tags from any YouTube video to analyze competitors and improve your SEO.</div>
+                </a>
+                <a href="youtube-tag-generator.html" class="tool-card">
+                    <div class="tool-icon">🎯</div>
+                    <div class="tool-title">Tag Generator</div>
+                    <div class="tool-desc">Generate SEO-optimized tags for your YouTube videos using AI or rule-based algorithms.</div>
+                </a>
+                <a href="youtube-hashtag-extractor.html" class="tool-card">
+                    <div class="tool-icon">🔖</div>
+                    <div class="tool-title">Hashtag Extractor</div>
+                    <div class="tool-desc">Extract hashtags from YouTube video descriptions.</div>
+                </a>
+                <a href="youtube-hashtag-generator.html" class="tool-card">
+                    <div class="tool-icon">💬</div>
+                    <div class="tool-title">Hashtag Generator</div>
+                    <div class="tool-desc">Generate relevant hashtags for your YouTube videos based on topic.</div>
+                </a>
+                <a href="youtube-title-generator.html" class="tool-card">
+                    <div class="tool-icon">📝</div>
+                    <div class="tool-title">Title Generator</div>
+                    <div class="tool-desc">Generate catchy, SEO-optimized titles for your YouTube videos.</div>
+                </a>
+                <a href="youtube-description-generator.html" class="tool-card">
+                    <div class="tool-icon">📄</div>
+                    <div class="tool-title">Description Generator</div>
+                    <div class="tool-desc">Generate compelling descriptions for your YouTube videos with SEO optimization.</div>
+                </a>
+                <a href="youtube-channel-id-finder.html" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <div class="tool-title">Channel ID Finder</div>
+                    <div class="tool-desc">Find the channel ID from a YouTube channel URL or handle.</div>
+                </a>
+                <a href="youtube-money-calculator.html" class="tool-card">
+                    <div class="tool-icon">💰</div>
+                    <div class="tool-title">Money Calculator</div>
+                    <div class="tool-desc">Calculate potential YouTube earnings based on views and RPM.</div>
+                </a>
+                <a href="youtube-transcript-extractor.html" class="tool-card">
+                    <div class="tool-icon">📜</div>
+                    <div class="tool-title">Transcript Extractor</div>
+                    <div class="tool-desc">Extract clean transcripts from YouTube videos with timestamps.</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="category">
+            <h2 class="category-title">🔧 Utility Tools</h2>
+            <div class="tools-grid">
+                <a href="text-to-hashtags.html" class="tool-card">
+                    <div class="tool-icon">#️⃣</div>
+                    <div class="tool-title">Text to Hashtags</div>
+                    <div class="tool-desc">Convert text into hashtags automatically.</div>
+                </a>
+                <a href="backwards-text.html" class="tool-card">
+                    <div class="tool-icon">🔄</div>
+                    <div class="tool-title">Backwards Text</div>
+                    <div class="tool-desc">Reverse any text string backwards.</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 YouTools. All tools are free to use. Powered by Railway API.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backwards Text Generator - YouTools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 30px; }
+        h1 { color: #333; margin-bottom: 10px; font-size: 28px; }
+        .description { color: #666; margin-bottom: 30px; font-size: 14px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 14px; }
+        input { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; }
+        input:focus { outline: none; border-color: #FF0000; }
+        .btn { background: #FF0000; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .btn:hover { background: #CC0000; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .result, .error { margin-top: 30px; padding: 20px; border-radius: 8px; display: none; }
+        .error { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
+        .result { background: #f8f9fa; border: 2px solid #e0e0e0; }
+        .text-box { background: white; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; font-size: 18px; font-family: monospace; direction: rtl; }
+        .copy-btn { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; }
+        .copy-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Backwards Text Generator</h1>
+        <p class="description">Reverse any text string backwards.</p>
+        <form id="form">
+            <div class="form-group">
+                <label for="text">Your Text</label>
+                <input type="text" id="text" placeholder="Enter text to reverse..." required>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Reverse Text</button>
+        </form>
+        <div id="error" class="error"></div>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const API_URL = 'https://youtools-production.up.railway.app/api/tools/backwards';
+        document.getElementById('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            const submitBtn = document.getElementById('submitBtn');
+            resultDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Reversing...';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: document.getElementById('text').value })
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+                const reversed = data.reversed || data.data?.reversed || '';
+                if (!reversed) throw new Error('Failed to reverse text');
+                
+                let html = '<button class="copy-btn" onclick="copyReversed()">📋 Copy</button>';
+                html += '<div class="text-box">' + reversed + '</div>';
+                resultDiv.innerHTML = html;
+                resultDiv.style.display = 'block';
+                window.copyReversed = () => navigator.clipboard.writeText(reversed).then(() => alert('Copied!'));
+            } catch (error) {
+                errorDiv.innerHTML = '<strong>⚠️ Error:</strong> ' + error.message;
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Reverse Text';
+            }
+        });
+    </script>
+</body>
+</html>

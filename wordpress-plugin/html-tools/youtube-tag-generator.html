@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Tag Generator - YouTools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 30px; }
+        h1 { color: #333; margin-bottom: 10px; font-size: 28px; }
+        .description { color: #666; margin-bottom: 30px; font-size: 14px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 14px; }
+        input, textarea, select { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; font-family: inherit; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #FF0000; }
+        textarea { resize: vertical; min-height: 100px; }
+        .btn { background: #FF0000; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .btn:hover { background: #CC0000; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .result, .error { margin-top: 30px; padding: 20px; border-radius: 8px; display: none; }
+        .error { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
+        .result { background: #f8f9fa; border: 2px solid #e0e0e0; }
+        .tags-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
+        .tag { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
+        .copy-btn { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; }
+        .copy-btn:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 YouTube Tag Generator</h1>
+        <p class="description">Generate SEO-optimized tags for your YouTube videos using AI or rule-based algorithms.</p>
+        <form id="form">
+            <div class="form-group">
+                <label for="title">Video Title</label>
+                <input type="text" id="title" placeholder="How to grow on YouTube" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Video Description (optional)</label>
+                <textarea id="description" placeholder="Brief description of your video..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="mode">Mode</label>
+                <select id="mode">
+                    <option value="rb">Rule-based (Fast)</option>
+                    <option value="ai">AI-powered (Better)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="maxTags">Maximum Tags</label>
+                <input type="number" id="maxTags" value="20" min="5" max="50">
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Generate Tags</button>
+        </form>
+        <div id="error" class="error"></div>
+        <div id="result" class="result"></div>
+    </div>
+    <script>
+        const API_URL = 'https://youtools-production.up.railway.app/api/youtube/tags/generate';
+        const form = document.getElementById('form');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            resultDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Generating...';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: document.getElementById('title').value,
+                        description: document.getElementById('description').value,
+                        mode: document.getElementById('mode').value,
+                        max: parseInt(document.getElementById('maxTags').value)
+                    })
+                });
+                const data = await response.json();
+                if (data.error) throw new Error(data.error);
+                const tags = data.tags || data.data?.tags || [];
+                if (tags.length === 0) throw new Error('No tags generated');
+                
+                let html = '<button class="copy-btn" onclick="copyTags()">📋 Copy All Tags</button>';
+                html += '<div class="tags-container">';
+                tags.forEach(tag => html += '<span class="tag">' + escapeHtml(tag) + '</span>');
+                html += '</div>';
+                html += '<p style="margin-top: 15px; color: #666;"><strong>' + tags.length + '</strong> tags generated</p>';
+                
+                resultDiv.innerHTML = html;
+                resultDiv.style.display = 'block';
+                window.tagsData = tags.join(', ');
+            } catch (error) {
+                errorDiv.innerHTML = '<strong>⚠️ Error:</strong> ' + error.message;
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Generate Tags';
+            }
+        });
+
+        function copyTags() {
+            navigator.clipboard.writeText(window.tagsData).then(() => alert('Tags copied!'));
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
