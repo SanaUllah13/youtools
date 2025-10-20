@@ -52,7 +52,6 @@ export async function GET(req: NextRequest) {
             lengthSeconds: video.duration || 0,
             viewCount: video.views || 0,
             likes: video.likes || 0,
-            comments: video.comments || 0,
             keywords: [],
             availableCountries: null,
             isLive: video.live || false,
