@@ -485,7 +485,7 @@ async function scrapeTrendingVideos(country: string, category: string) {
       }
 
     } catch (error) {
-      console.log(`Failed ${approach.name}:`, error.message || error);
+      console.log(`Failed ${approach.name}:`, error instanceof Error ? error.message : error);
       continue;
     }
   }

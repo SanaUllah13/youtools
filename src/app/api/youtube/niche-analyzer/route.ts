@@ -1370,7 +1370,7 @@ async function getRealCompetitorData(nicheHierarchy: (NicheHierarchy & { searchK
         console.log(`🔍 Query: "${query}" - Found ${searchResults.length} videos`);
         
         for (const video of searchResults) {
-          if (video && video.id && video.title && isVideoRecent(video.uploadedAt)) {
+          if (video && video.id && video.title && video.uploadedAt && isVideoRecent(video.uploadedAt)) {
             // Check if video is actually relevant to our search keywords
             const isRelevant = isVideoRelevantToTopic(video, searchQueries, query);
             
@@ -1384,7 +1384,7 @@ async function getRealCompetitorData(nicheHierarchy: (NicheHierarchy & { searchK
                 thumbnail: video.thumbnail?.url || '',
                 channelName: video.channel?.name || 'Unknown Channel',
                 channelId: video.channel?.id || '',
-                channelSubscribers: video.channel?.subscribers || 0,
+                channelSubscribers: typeof video.channel?.subscribers === 'number' ? video.channel.subscribers : (parseInt(video.channel?.subscribers as string) || 0),
                 channelVerified: video.channel?.verified || false
               };
               allVideos.push(realVideo);
@@ -1922,7 +1922,7 @@ async function analyzeNicheWithRealData(input: string): Promise<NicheAnalysis> {
       try {
         videoData = await youtubeSearch.getVideo(videoId);
       } catch (getVideoError) {
-        console.log(`getVideo failed, trying search: ${getVideoError.message}`);
+        console.log(`getVideo failed, trying search: ${getVideoError instanceof Error ? getVideoError.message : 'Unknown error'}`);
         // Method 2: Search for the video by ID
         try {
           const searchResults = await youtubeSearch.search(videoId, { limit: 1, type: 'video' });
@@ -1930,7 +1930,7 @@ async function analyzeNicheWithRealData(input: string): Promise<NicheAnalysis> {
             videoData = searchResults[0];
           }
         } catch (searchError) {
-          console.log(`Search by ID also failed: ${searchError.message}`);
+          console.log(`Search by ID also failed: ${searchError instanceof Error ? searchError.message : 'Unknown error'}`);
         }
       }
       
