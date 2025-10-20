@@ -3,7 +3,7 @@
  * Plugin Name: YouTools - All-in-One YouTube & SEO Tools
  * Plugin URI: https://youtools.com
  * Description: 30+ free tools for YouTube creators and SEO professionals. Includes video info, tags, analytics, keyword density, and more.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: YouTools
  * License: GPL v2 or later
  * Text Domain: youtools
@@ -35,16 +35,20 @@ class YouTools_Plugin {
     }
     
     public function enqueue_scripts() {
-        // Only enqueue on pages with shortcodes
-        if (has_shortcode(get_post()->post_content ?? '', 'youtools') || 
-            has_shortcode(get_post()->post_content ?? '', 'youtube') || 
-            has_shortcode(get_post()->post_content ?? '', 'seo')) {
-            
+        // Check if we're on a singular post/page
+        if (!is_singular()) {
+            return;
+        }
+        
+        global $post;
+        
+        // Check if any YouTools shortcode exists in the content
+        if ($post && (stripos($post->post_content, '[youtools_') !== false)) {
             wp_enqueue_script('youtools-main', YOUTOOLS_PLUGIN_URL . 'assets/youtools.js', array('jquery'), YOUTOOLS_VERSION, true);
             wp_enqueue_style('youtools-style', YOUTOOLS_PLUGIN_URL . 'assets/youtools.css', array(), YOUTOOLS_VERSION);
             
             wp_localize_script('youtools-main', 'youtools_config', array(
-                'api_url' => get_option('youtools_api_url', 'http://localhost:3000'),
+                'api_url' => get_option('youtools_api_url', 'https://youtools-production.up.railway.app'),
                 'nonce' => wp_create_nonce('youtools_nonce'),
             ));
         }
@@ -76,8 +80,8 @@ class YouTools_Plugin {
                     <tr>
                         <th scope="row">API URL</th>
                         <td>
-                            <input type="text" name="youtools_api_url" value="<?php echo esc_attr(get_option('youtools_api_url', 'http://localhost:3000')); ?>" class="regular-text" />
-                            <p class="description">URL to your Next.js API (e.g., http://localhost:3000 or https://yourdomain.com)</p>
+                            <input type="text" name="youtools_api_url" value="<?php echo esc_attr(get_option('youtools_api_url', 'https://youtools-production.up.railway.app')); ?>" class="regular-text" />
+                            <p class="description">Your Railway API URL (default: https://youtools-production.up.railway.app)</p>
                         </td>
                     </tr>
                 </table>
