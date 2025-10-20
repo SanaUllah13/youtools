@@ -73,6 +73,7 @@
 
         makeApiCall(apiUrl, method, requestData)
             .then(data => {
+                console.log('API Response for', tool, ':', data);
                 displayResult($result, data, tool);
                 $result.slideDown();
             })
@@ -317,15 +318,18 @@
 
     // Result rendering functions
     function renderVideoInfo($result, data) {
+        // Handle nested data structure
+        const videoData = data.data || data;
+        
         $result.html(`
             <div class="youtools-info-grid">
-                <div class="youtools-info-item"><strong>Title:</strong> ${data.title}</div>
-                <div class="youtools-info-item"><strong>Channel:</strong> ${data.channel || 'N/A'}</div>
-                <div class="youtools-info-item"><strong>Views:</strong> ${formatNumber(data.views)}</div>
-                <div class="youtools-info-item"><strong>Likes:</strong> ${formatNumber(data.likes)}</div>
-                <div class="youtools-info-item"><strong>Duration:</strong> ${data.duration || 'N/A'}</div>
-                <div class="youtools-info-item"><strong>Published:</strong> ${data.publishDate || 'N/A'}</div>
-                ${data.description ? `<div class="youtools-info-item youtools-full-width"><strong>Description:</strong><br>${escapeHtml(data.description)}</div>` : ''}
+                <div class="youtools-info-item"><strong>Title:</strong> ${escapeHtml(videoData.title || 'N/A')}</div>
+                <div class="youtools-info-item"><strong>Channel:</strong> ${escapeHtml(videoData.channel || videoData.channelName || videoData.author || 'N/A')}</div>
+                <div class="youtools-info-item"><strong>Views:</strong> ${formatNumber(videoData.views || videoData.viewCount || 0)}</div>
+                <div class="youtools-info-item"><strong>Likes:</strong> ${formatNumber(videoData.likes || videoData.likeCount || 0)}</div>
+                <div class="youtools-info-item"><strong>Duration:</strong> ${videoData.duration || videoData.lengthSeconds || 'N/A'}</div>
+                <div class="youtools-info-item"><strong>Published:</strong> ${videoData.publishDate || videoData.uploadDate || videoData.published || 'N/A'}</div>
+                ${videoData.description ? `<div class="youtools-info-item youtools-full-width"><strong>Description:</strong><br>${escapeHtml(videoData.description)}</div>` : ''}
             </div>
         `);
     }
