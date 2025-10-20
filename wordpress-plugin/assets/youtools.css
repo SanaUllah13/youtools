@@ -1,0 +1,549 @@
+/* YouTools WordPress Plugin Styles */
+
+/* Container */
+.youtools-container {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px;
+    margin: 24px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Header */
+.youtools-header {
+    margin-bottom: 20px;
+}
+
+.youtools-title {
+    margin: 0 0 8px 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+}
+
+.youtools-description {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* Form */
+.youtools-form {
+    margin-bottom: 20px;
+}
+
+.youtools-field {
+    margin-bottom: 16px;
+}
+
+.youtools-field label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #444;
+    font-size: 14px;
+}
+
+.youtools-field input[type="text"],
+.youtools-field input[type="url"],
+.youtools-field input[type="number"],
+.youtools-field textarea,
+.youtools-field select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.youtools-field input:focus,
+.youtools-field textarea:focus,
+.youtools-field select:focus {
+    outline: none;
+    border-color: #FF0000;
+}
+
+.youtools-field textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Submit Button */
+.youtools-submit {
+    background: #FF0000;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.youtools-submit:hover {
+    background: #CC0000;
+}
+
+.youtools-submit:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.youtools-spinner {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Results */
+.youtools-result,
+.youtools-error {
+    margin-top: 20px;
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Error Box */
+.youtools-error-box {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+    padding: 12px 16px;
+    color: #856404;
+}
+
+/* Copy Button */
+.youtools-copy-btn {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-bottom: 12px;
+}
+
+.youtools-copy-btn:hover {
+    background: #e9ecef;
+}
+
+/* Info Grid */
+.youtools-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 12px;
+}
+
+.youtools-info-item {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.youtools-info-item strong {
+    color: #333;
+}
+
+.youtools-full-width {
+    grid-column: 1 / -1;
+}
+
+/* Tags */
+.youtools-tags-box {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.youtools-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.youtools-tag {
+    background: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 13px;
+    display: inline-block;
+}
+
+/* List */
+.youtools-list {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.youtools-list-item {
+    padding: 10px 12px;
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.youtools-list-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Text Box */
+.youtools-text-box {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.youtools-text-content {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.youtools-transcript {
+    font-family: 'Georgia', serif;
+    line-height: 1.8;
+}
+
+.youtools-reversed {
+    font-family: monospace;
+    direction: rtl;
+}
+
+/* Info Box */
+.youtools-info-box {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.youtools-info-box code {
+    background: white;
+    border: 1px solid #e0e0e0;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 13px;
+    flex: 1;
+}
+
+/* Statistics Grid */
+.youtools-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.youtools-stat-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+}
+
+.youtools-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.youtools-stat-label {
+    font-size: 13px;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Money Result */
+.youtools-money-result {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+}
+
+.youtools-money-result h4 {
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    opacity: 0.95;
+}
+
+.youtools-money-range {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.youtools-money-item {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 16px;
+}
+
+.youtools-money-label {
+    display: block;
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 8px;
+}
+
+.youtools-money-value {
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.youtools-money-value-large {
+    font-size: 48px;
+    font-weight: 700;
+    margin: 16px 0;
+}
+
+.youtools-note {
+    margin: 12px 0 0 0;
+    font-size: 13px;
+    opacity: 0.9;
+}
+
+/* Table */
+.youtools-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.youtools-table thead {
+    background: #f8f9fa;
+}
+
+.youtools-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.youtools-table td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+}
+
+.youtools-table tr:last-child td {
+    border-bottom: none;
+}
+
+.youtools-table tr:hover {
+    background: #f8f9fa;
+}
+
+/* Code Box */
+.youtools-code-box {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.youtools-code-box pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    border-radius: 4px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.youtools-code-box code {
+    font-family: 'Courier New', monospace;
+}
+
+/* Analysis */
+.youtools-analysis {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.youtools-analysis h4 {
+    margin: 0 0 16px 0;
+    color: #333;
+}
+
+.youtools-analysis p {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.youtools-analysis p:last-child {
+    margin-bottom: 0;
+}
+
+/* Diff */
+.youtools-diff {
+    background: #f8f9fa;
+    border-radius: 4px;
+    padding: 16px;
+}
+
+.youtools-diff h4 {
+    margin: 0 0 12px 0;
+    color: #333;
+}
+
+.youtools-diff pre {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    font-family: monospace;
+}
+
+/* JSON Display */
+.youtools-json {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    border-radius: 4px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    font-family: monospace;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .youtools-container {
+        padding: 16px;
+    }
+    
+    .youtools-title {
+        font-size: 20px;
+    }
+    
+    .youtools-info-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .youtools-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .youtools-money-range {
+        grid-template-columns: 1fr;
+    }
+    
+    .youtools-money-value-large {
+        font-size: 36px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .youtools-container {
+        background: #1e1e1e;
+        border-color: #333;
+    }
+    
+    .youtools-title {
+        color: #e0e0e0;
+    }
+    
+    .youtools-description {
+        color: #b0b0b0;
+    }
+    
+    .youtools-field label {
+        color: #d0d0d0;
+    }
+    
+    .youtools-field input,
+    .youtools-field textarea,
+    .youtools-field select {
+        background: #2d2d2d;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+    
+    .youtools-info-item,
+    .youtools-tags-box,
+    .youtools-list,
+    .youtools-text-box,
+    .youtools-info-box,
+    .youtools-code-box,
+    .youtools-analysis,
+    .youtools-diff {
+        background: #2d2d2d;
+    }
+    
+    .youtools-text-content,
+    .youtools-list-item {
+        background: #1e1e1e;
+        border-color: #444;
+        color: #e0e0e0;
+    }
+    
+    .youtools-table {
+        background: #1e1e1e;
+    }
+    
+    .youtools-table thead {
+        background: #2d2d2d;
+    }
+    
+    .youtools-table th,
+    .youtools-table td {
+        color: #e0e0e0;
+        border-color: #444;
+    }
+}

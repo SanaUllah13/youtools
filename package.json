@@ -9,19 +9,37 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@freetube/yt-trending-scraper": "^3.1.1",
+    "@types/diff": "^7.0.2",
+    "axios": "^1.12.2",
+    "cheerio": "^1.1.2",
+    "diff": "^8.0.2",
+    "keyword-extractor": "^0.0.28",
+    "lru-cache": "^11.2.1",
+    "natural": "^8.1.0",
+    "next": "15.5.3",
+    "openai": "^5.21.0",
+    "puppeteer": "^24.21.0",
+    "rate-limiter-flexible": "^7.3.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "youtube-dl-exec": "^3.0.25",
+    "youtube-sr": "^4.3.12",
+    "youtube-transcript": "^1.2.1",
+    "youtubei.js": "^15.1.1",
+    "yt-channel-info": "^3.2.1",
+    "ytdl-core": "^4.11.5",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
-    "@eslint/eslintrc": "^3"
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
