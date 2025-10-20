@@ -318,12 +318,14 @@
 
     // Result rendering functions
     function renderVideoInfo($result, data) {
-        // Handle nested data structure
-        const videoData = data.data || data;
+        // Handle nested data structure - API returns data at root level
+        const videoData = data;
+        
+        console.log('Video data received:', videoData);
         
         // Format duration from seconds
         const formatDuration = (seconds) => {
-            if (!seconds) return 'N/A';
+            if (!seconds || seconds === 0) return 'N/A';
             const hrs = Math.floor(seconds / 3600);
             const mins = Math.floor((seconds % 3600) / 60);
             const secs = seconds % 60;
@@ -336,13 +338,12 @@
         $result.html(`
             <div class="youtools-info-grid">
                 <div class="youtools-info-item"><strong>Title:</strong> ${escapeHtml(videoData.title || 'N/A')}</div>
-                <div class="youtools-info-item"><strong>Channel:</strong> ${escapeHtml(videoData.channel || videoData.channelName || videoData.author || 'N/A')}</div>
-                <div class="youtools-info-item"><strong>Views:</strong> ${formatNumber(videoData.views || videoData.viewCount || 0)}</div>
-                <div class="youtools-info-item"><strong>Likes:</strong> ${formatNumber(videoData.likes || videoData.likeCount || 0)}</div>
-                <div class="youtools-info-item"><strong>Comments:</strong> ${formatNumber(videoData.comments || videoData.commentCount || 0)}</div>
+                <div class="youtools-info-item"><strong>Channel:</strong> ${escapeHtml(videoData.author || 'N/A')}</div>
+                <div class="youtools-info-item"><strong>Views:</strong> ${formatNumber(videoData.viewCount || 0)}</div>
+                <div class="youtools-info-item"><strong>Likes:</strong> ${formatNumber(videoData.likes || 0)}</div>
                 <div class="youtools-info-item"><strong>Duration:</strong> ${duration}</div>
-                <div class="youtools-info-item"><strong>Published:</strong> ${videoData.publishDate || videoData.uploadDate || videoData.uploaded || videoData.uploadedAt || 'N/A'}</div>
-                ${videoData.description ? `<div class="youtools-info-item youtools-full-width"><strong>Description:</strong><br><div style="max-height: 200px; overflow-y: auto;">${escapeHtml(videoData.description)}</div></div>` : ''}
+                <div class="youtools-info-item"><strong>Published:</strong> ${videoData.uploadDate || 'N/A'}</div>
+                ${videoData.description ? `<div class="youtools-info-item youtools-full-width"><strong>Description:</strong><br><div style="max-height: 200px; overflow-y: auto; white-space: pre-wrap;">${escapeHtml(videoData.description)}</div></div>` : ''}
             </div>
         `);
     }
