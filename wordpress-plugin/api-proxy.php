@@ -14,8 +14,7 @@ header('X-Powered-By: YouTools');
 
 // CORS - Allow only YOUR domains
 $allowed_origins = [
-    'https://yoursite.com',
-    'https://www.yoursite.com',
+    'https://darkblue-baboon-552098.hostingersite.com',
     'http://localhost', // for testing
 ];
 
