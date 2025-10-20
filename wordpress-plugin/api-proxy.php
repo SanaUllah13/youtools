@@ -14,7 +14,8 @@ header('X-Powered-By: YouTools');
 
 // CORS - Allow only YOUR domains
 $allowed_origins = [
-    'https://darkblue-baboon-552098.hostingersite.com',
+    'https://ytprotools.com',
+    'https://www.ytprotools.com',
     'http://localhost', // for testing
 ];
 

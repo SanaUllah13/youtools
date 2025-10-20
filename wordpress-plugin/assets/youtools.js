@@ -309,19 +309,35 @@
     }
 
     function displayError($error, error) {
+        console.error('Error occurred:', error);
         $error.html(`
             <div class="youtools-error-box">
-                <strong>Error:</strong> ${error.message || 'An error occurred. Please try again.'}
+                <strong>Error:</strong> ${error.message || 'An error occurred. Please try again.'}<br>
+                <small>Check browser console (F12) for more details.</small>
             </div>
         `);
     }
 
     // Result rendering functions
     function renderVideoInfo($result, data) {
-        // Handle nested data structure - API returns data at root level
-        const videoData = data;
+        // Log the full response for debugging
+        console.log('Full API response:', data);
+        console.log('Response type:', typeof data);
+        console.log('Response keys:', Object.keys(data));
         
-        console.log('Video data received:', videoData);
+        // Handle different response structures
+        // Try: direct, data wrapper, or nested
+        let videoData = data;
+        if (data.data && typeof data.data === 'object') {
+            videoData = data.data;
+            console.log('Using data.data wrapper');
+        }
+        
+        console.log('Video data to render:', videoData);
+        console.log('Title:', videoData.title);
+        console.log('Author:', videoData.author);
+        console.log('ViewCount:', videoData.viewCount);
+        console.log('LengthSeconds:', videoData.lengthSeconds);
         
         // Format duration from seconds
         const formatDuration = (seconds) => {
@@ -335,17 +351,45 @@
         
         const duration = videoData.lengthSeconds ? formatDuration(videoData.lengthSeconds) : (videoData.duration || 'N/A');
         
-        $result.html(`
-            <div class="youtools-info-grid">
-                <div class="youtools-info-item"><strong>Title:</strong> ${escapeHtml(videoData.title || 'N/A')}</div>
-                <div class="youtools-info-item"><strong>Channel:</strong> ${escapeHtml(videoData.author || 'N/A')}</div>
-                <div class="youtools-info-item"><strong>Views:</strong> ${formatNumber(videoData.viewCount || 0)}</div>
-                <div class="youtools-info-item"><strong>Likes:</strong> ${formatNumber(videoData.likes || 0)}</div>
-                <div class="youtools-info-item"><strong>Duration:</strong> ${duration}</div>
-                <div class="youtools-info-item"><strong>Published:</strong> ${videoData.uploadDate || 'N/A'}</div>
-                ${videoData.description ? `<div class="youtools-info-item youtools-full-width"><strong>Description:</strong><br><div style="max-height: 200px; overflow-y: auto; white-space: pre-wrap;">${escapeHtml(videoData.description)}</div></div>` : ''}
-            </div>
-        `);
+        // Build HTML with available data
+        let html = '<div class="youtools-info-grid">';
+        
+        if (videoData.title) {
+            html += `<div class="youtools-info-item"><strong>Title:</strong> ${escapeHtml(videoData.title)}</div>`;
+        }
+        
+        if (videoData.author) {
+            html += `<div class="youtools-info-item"><strong>Channel:</strong> ${escapeHtml(videoData.author)}</div>`;
+        }
+        
+        if (videoData.viewCount !== undefined && videoData.viewCount !== null) {
+            html += `<div class="youtools-info-item"><strong>Views:</strong> ${formatNumber(videoData.viewCount)}</div>`;
+        }
+        
+        if (videoData.likes !== undefined && videoData.likes !== null) {
+            html += `<div class="youtools-info-item"><strong>Likes:</strong> ${formatNumber(videoData.likes)}</div>`;
+        }
+        
+        if (duration && duration !== 'N/A') {
+            html += `<div class="youtools-info-item"><strong>Duration:</strong> ${duration}</div>`;
+        }
+        
+        if (videoData.uploadDate) {
+            html += `<div class="youtools-info-item"><strong>Published:</strong> ${videoData.uploadDate}</div>`;
+        }
+        
+        if (videoData.description) {
+            html += `<div class="youtools-info-item youtools-full-width"><strong>Description:</strong><br><div style="max-height: 200px; overflow-y: auto; white-space: pre-wrap;">${escapeHtml(videoData.description)}</div></div>`;
+        }
+        
+        html += '</div>';
+        
+        // If no data was rendered, show error
+        if (!videoData.title) {
+            html = `<div class="youtools-error-box"><strong>Debug Info:</strong> Received response but no video data found. Check browser console for details.</div>`;
+        }
+        
+        $result.html(html);
     }
 
     function renderTags($result, data) {

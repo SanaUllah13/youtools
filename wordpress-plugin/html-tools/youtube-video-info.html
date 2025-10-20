@@ -3,225 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YouTube Video Info - YouTools</title>
+    <title>YouTube Video Info - YouTools (Secure)</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 30px;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 28px;
-        }
-
-        .description {
-            color: #666;
-            margin-bottom: 30px;
-            font-size: 14px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
-            font-size: 14px;
-        }
-
-        input[type="url"] {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: border-color 0.3s;
-        }
-
-        input[type="url"]:focus {
-            outline: none;
-            border-color: #FF0000;
-        }
-
-        .btn {
-            background: #FF0000;
-            color: white;
-            border: none;
-            padding: 14px 32px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .btn:hover {
-            background: #CC0000;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
-        }
-
-        .btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .result, .error {
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 8px;
-            display: none;
-            animation: slideIn 0.3s ease;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .error {
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            color: #856404;
-        }
-
-        .result {
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-        }
-
-        .video-info {
-            display: grid;
-            gap: 16px;
-        }
-
-        .info-item {
-            background: white;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-        }
-
-        .info-item strong {
-            display: block;
-            color: #FF0000;
-            margin-bottom: 6px;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .info-item span {
-            color: #333;
-            font-size: 16px;
-            word-break: break-word;
-        }
-
-        .thumbnail {
-            width: 100%;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
-
-        .description-box {
-            background: white;
-            padding: 16px;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            max-height: 200px;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            line-height: 1.6;
-            color: #444;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .stat-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-
-        .stat-label {
-            font-size: 12px;
-            opacity: 0.9;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 30px; }
+        h1 { color: #333; margin-bottom: 10px; font-size: 28px; }
+        .description { color: #666; margin-bottom: 30px; font-size: 14px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 14px; }
+        input[type="url"] { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; transition: border-color 0.3s; }
+        input[type="url"]:focus { outline: none; border-color: #FF0000; }
+        .btn { background: #FF0000; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 10px; }
+        .btn:hover { background: #CC0000; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3); }
+        .btn:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .result, .error { margin-top: 30px; padding: 20px; border-radius: 8px; display: none; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .error { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
+        .result { background: #f8f9fa; border: 2px solid #e0e0e0; }
+        .video-info { display: grid; gap: 16px; }
+        .info-item { background: white; padding: 16px; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .info-item strong { display: block; color: #FF0000; margin-bottom: 6px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .info-item span { color: #333; font-size: 16px; word-break: break-word; }
+        .thumbnail { width: 100%; border-radius: 8px; margin-bottom: 20px; }
+        .description-box { background: white; padding: 16px; border-radius: 8px; border: 1px solid #e0e0e0; max-height: 200px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #444; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 20px; }
+        .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+        .stat-label { font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+        @media (max-width: 600px) { .container { padding: 20px; } h1 { font-size: 24px; } .stats-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -243,7 +53,6 @@
 
             <button type="submit" class="btn">
                 <span id="btnText">Get Video Info</span>
-                <div class="spinner" id="spinner"></div>
             </button>
         </form>
 
@@ -252,13 +61,13 @@
     </div>
 
     <script>
-        const API_URL = 'https://youtools-production.up.railway.app/api/youtube/info';
-
+        // 🔒 SECURE: API URL is now hidden - requests go through YOUR server proxy
+        const PROXY_URL = 'https://ytprotools.com/api-proxy.php';
+        
         const form = document.getElementById('videoForm');
         const resultDiv = document.getElementById('result');
         const errorDiv = document.getElementById('error');
         const btnText = document.getElementById('btnText');
-        const spinner = document.getElementById('spinner');
         const submitBtn = form.querySelector('.btn');
 
         form.addEventListener('submit', async (e) => {
@@ -273,16 +82,22 @@
             // Show loading state
             submitBtn.disabled = true;
             btnText.textContent = 'Loading...';
-            spinner.style.display = 'block';
 
             try {
-                const response = await fetch(`${API_URL}?input=${encodeURIComponent(videoUrl)}`, {
+                // 🔒 Request goes through YOUR proxy - Railway API URL is hidden!
+                const response = await fetch(`${PROXY_URL}?endpoint=/api/youtube/info&input=${encodeURIComponent(videoUrl)}`, {
                     method: 'GET',
                     headers: {
                         'Accept': 'application/json'
                     }
                 });
 
+                // Check if response is actually JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    throw new Error('API proxy not configured. Please upload api-proxy.php to your server first.');
+                }
+                
                 const data = await response.json();
                 console.log('API Response:', data);
 
@@ -306,7 +121,6 @@
                 // Reset button state
                 submitBtn.disabled = false;
                 btnText.textContent = 'Get Video Info';
-                spinner.style.display = 'none';
             }
         });
 
