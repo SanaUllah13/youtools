@@ -5,10 +5,20 @@ import youtubeSearch from 'youtube-sr';
 import { videoInfo, extractId } from '@/lib/youtube';
 import OpenAI from 'openai';
 
-// Initialize OpenAI
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization of OpenAI
+let openaiInstance: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (!openaiInstance) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OpenAI API key not configured');
+    }
+    openaiInstance = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openaiInstance;
+}
 
 // Interfaces for real YouTube data
 interface RealVideo {
@@ -148,7 +158,7 @@ JSON only:
   try {
     console.log(`🤖 Calling OpenAI for: "${title}"`);
     
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
