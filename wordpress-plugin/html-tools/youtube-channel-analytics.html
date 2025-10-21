@@ -17,8 +17,8 @@
         input:focus { outline: none; border-color: #2563eb; }
         .examples { margin-top: 10px; font-size: 13px; color: #666; }
         .examples ul { list-style: disc; margin-left: 20px; margin-top: 5px; }
-        .btn { background: #2563eb; color: white; border: none; padding: 14px 32px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
-        .btn:hover { background: #1d4ed8; }
+        .btn { background: #CC0700; color: white; border: none; padding: 14px 32px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
+        .btn:hover { background: #a30600; }
         .btn:disabled { background: #9ca3af; cursor: not-allowed; }
         .error { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 16px; border-radius: 8px; margin-bottom: 20px; display: none; }
         .result { display: none; }
@@ -48,7 +48,7 @@
         .video-title { font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 8px; line-height: 1.4; max-height: 40px; overflow: hidden; }
         .video-meta { display: flex; justify-content: space-between; font-size: 12px; color: #6b7280; }
         .back-link { text-align: center; margin-top: 30px; }
-        .back-link a { color: #2563eb; text-decoration: none; font-size: 16px; }
+        .back-link a { color: #CC0700; text-decoration: none; font-size: 16px; }
         @media (max-width: 768px) {
             .channel-info { flex-direction: column; }
             .metrics-grid { grid-template-columns: 1fr; }
@@ -115,7 +115,11 @@
                 displayResults(data);
                 
             } catch (error) {
-                errorDiv.innerHTML = `<strong>⚠️ Error:</strong> ${error.message}`;
+                let errorMessage = error.message;
+                if (errorMessage === 'Invalid endpoint') {
+                    errorMessage = 'The API proxy needs to be updated. Please upload the latest api-proxy.php file to your server.';
+                }
+                errorDiv.innerHTML = `<strong>⚠️ Error:</strong> ${errorMessage}`;
                 errorDiv.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
