@@ -20,9 +20,7 @@
         .result, .error { margin-top: 30px; padding: 20px; border-radius: 8px; display: none; }
         .error { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
         .result { background: #f8f9fa; border: 2px solid #e0e0e0; }
-        .tags-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-        .tag { background: #007bff; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; }
-        .copy-btn { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; margin-bottom: 15px; }
+        .copy-btn { background: #28a745; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; }
         .copy-btn:hover { background: #218838; }
     </style>
 </head>
@@ -32,13 +30,16 @@
         <p class="description">Find the channel ID from a YouTube channel URL or handle.</p>
         <form id="form">
             <div class="form-group">
-                <label for="videoUrl">YouTube Video URL</label>
-                <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+                <label for="channelUrl">YouTube Channel URL or Video URL</label>
+                <input type="url" id="channelUrl" placeholder="https://www.youtube.com/@channelname or video URL" required>
             </div>
             <button type="submit" class="btn" id="submitBtn">Find Channel ID</button>
         </form>
         <div id="error" class="error"></div>
         <div id="result" class="result"></div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="color: #CC0700; text-decoration: none; font-size: 16px;">← Back to All Tools</a>
+        </div>
     </div>
     <script>
         const PROXY_URL = 'https://ytprotools.com/api-proxy.php';
@@ -53,15 +54,22 @@
             submitBtn.textContent = 'Loading...';
 
             try {
-                const response = await fetch(`${PROXY_URL}?endpoint=/api/youtube/channel-id&input=${encodeURIComponent(document.getElementById('videoUrl').value)}`);
+                const url = document.getElementById('channelUrl').value;
+                const response = await fetch(`${PROXY_URL}?endpoint=/api/youtube/info&input=${encodeURIComponent(url)}`);
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
-                const tags = data.tags || data.data?.tags || [];
-                if (tags.length === 0) throw new Error('Channel ID not found');
                 
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(\'' + tags.join(', ') + '\').then(() => alert(\'Copied!\'))">📋 Copy All</button><div class="tags-container">';
-                tags.forEach(t => html += '<span class="tag">' + escapeHtml(t) + '</span>');
-                html += '</div><p style="margin-top:15px;color:#666;"><strong>' + tags.length + '</strong> Channel ID:</p>';
+                const channelId = data.channelId || data.data?.channelId || data.authorId || data.data?.authorId;
+                const channelName = data.author || data.data?.author || 'Unknown';
+                
+                if (!channelId) throw new Error('Channel ID not found');
+                
+                let html = `<div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">`;
+                html += `<div style="margin-bottom: 15px;"><strong style="color: #FF0000;">Channel Name:</strong><br><span style="font-size: 18px;">${escapeHtml(channelName)}</span></div>`;
+                html += `<div style="margin-bottom: 15px;"><strong style="color: #FF0000;">Channel ID:</strong><br><code style="background: #f5f5f5; padding: 10px; display: block; border-radius: 4px; font-size: 14px; word-break: break-all;">${escapeHtml(channelId)}</code></div>`;
+                html += `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))", data-text="${channelId}">📋 Copy Channel ID</button>`;
+                html += `</div>`;
+                
                 resultDiv.innerHTML = html;
                 resultDiv.style.display = 'block';
             } catch (error) {
