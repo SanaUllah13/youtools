@@ -102,7 +102,8 @@
                 console.log('API Response:', data);
 
                 if (data.error) {
-                    throw new Error(data.error);
+                    const errorMsg = data.detail ? `${data.error}: ${data.detail}` : data.error;
+                    throw new Error(errorMsg);
                 }
 
                 // Handle different response structures
@@ -245,10 +246,16 @@
         }
 
         function showError(message) {
+            let helpText = 'Make sure you\'re using a valid YouTube video URL (e.g., https://www.youtube.com/watch?v=...)';
+            
+            if (message.includes('failed to fetch video info') || message.includes('extraction methods failed')) {
+                helpText = 'The video might be: age-restricted, private, region-locked, or recently deleted. Try a different video or check if it\'s publicly accessible.';
+            }
+            
             errorDiv.innerHTML = `
                 <strong>⚠️ Error:</strong> ${message}
                 <br><br>
-                <small>Make sure you're using a valid YouTube video URL (e.g., https://www.youtube.com/watch?v=...)</small>
+                <small>${helpText}</small>
             `;
             errorDiv.style.display = 'block';
         }
