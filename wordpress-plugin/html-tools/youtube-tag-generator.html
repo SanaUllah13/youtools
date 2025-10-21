@@ -29,16 +29,38 @@
 <body>
     <div class="container">
         <h1>🏷️ YouTube Tag Generator</h1>
-        <p class="description">Generate SEO-optimized tags for your YouTube videos to analyze competitors and improve your SEO.</p>
+        <p class="description">Generate SEO-optimized tags for your YouTube videos using AI or rule-based algorithms.</p>
         <form id="form">
             <div class="form-group">
-                <label for="videoUrl">YouTube Video URL</label>
-                <input type="url" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." required>
+                <label for="title">Video Title *</label>
+                <input type="text" id="title" placeholder="Enter your video title..." required>
+                <small style="color: #666; font-size: 13px;">Enter the title of your video for better tag suggestions</small>
             </div>
-            <button type="submit" class="btn" id="submitBtn">Generate Tags</button>
+            <div class="form-group">
+                <label for="description">Video Description (optional)</label>
+                <textarea id="description" placeholder="Enter your video description for more accurate tags..." style="min-height: 120px;"></textarea>
+                <small style="color: #666; font-size: 13px;">Providing description helps generate more relevant tags</small>
+            </div>
+            <div class="form-group">
+                <label for="mode">Generation Mode</label>
+                <select id="mode">
+                    <option value="rb">Rule-based (Fast)</option>
+                    <option value="ai">AI-powered (Better)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="maxTags">Max Tags</label>
+                <input type="number" id="maxTags" value="25" min="5" max="50">
+                <small style="color: #666; font-size: 13px;">Number of tags to generate (5-50)</small>
+            </div>
+            <button type="submit" class="btn" id="submitBtn" style="background: #0066ff;">Generate Tags</button>
         </form>
         <div id="error" class="error"></div>
         <div id="result" class="result"></div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="color: #0066ff; text-decoration: none; font-size: 16px;">← Back to All Tools</a>
+        </div>
     </div>
     <script>
         const PROXY_URL = 'https://ytprotools.com/api-proxy.php';
@@ -53,7 +75,16 @@
             submitBtn.textContent = 'Loading...';
 
             try {
-                const response = await fetch(`${PROXY_URL}?endpoint=/api/youtube/tags/generate&input=${encodeURIComponent(document.getElementById('videoUrl').value)}`);
+                const response = await fetch(`${PROXY_URL}?endpoint=/api/youtube/tags/generate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        title: document.getElementById('title').value,
+                        description: document.getElementById('description').value,
+                        mode: document.getElementById('mode').value,
+                        max: parseInt(document.getElementById('maxTags').value)
+                    })
+                });
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
                 const tags = data.tags || data.data?.tags || [];
