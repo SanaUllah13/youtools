@@ -53,14 +53,17 @@
             submitBtn.textContent = 'Loading...';
 
             try {
-                const response = await fetch(`${PROXY_URL}?endpoint=/api/youtube/hashtags&input=${encodeURIComponent(document.getElementById('videoUrl').value)}`);
+                const response = await fetch(`${PROXY_URL}?endpoint=/api/youtube/tags&input=${encodeURIComponent(document.getElementById('videoUrl').value)}`);
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
-                const hashtags = data.hashtags || data.data?.hashtags || [];
+                const hashtags = data.tags || data.data?.tags || [];
                 if (hashtags.length === 0) throw new Error('No hashtags found');
                 
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(\'' + hashtags.join(', ') + '\').then(() => alert(\'Copied!\'))">📋 Copy All</button><div class="hashtags-container">';
-                hashtags.forEach(t => html += '<span class="tag">' + escapeHtml(t) + '</span>');
+                // Add # to each tag
+                const hashtagsWithHash = hashtags.map(t => '#' + t);
+                const allHashtags = hashtagsWithHash.join(' ');
+                let html = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${allHashtags.replace(/"/g, '&quot;')}">📋 Copy All</button><div class="hashtags-container">`;
+                hashtagsWithHash.forEach(t => html += '<span class="tag">' + escapeHtml(t) + '</span>');
                 html += '</div><p style="margin-top:15px;color:#666;"><strong>' + hashtags.length + '</strong> hashtags found</p>';
                 resultDiv.innerHTML = html;
                 resultDiv.style.display = 'block';
