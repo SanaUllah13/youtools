@@ -77,8 +77,8 @@
                 });
                 const data = await response.json();
                 if (data.error) throw new Error(data.error);
-                const low = data.low || data.data?.low || 0;
-                const high = data.high || data.data?.high || 0;
+                const low = data.earnings?.low || data.low || 0;
+                const high = data.earnings?.high || data.high || 0;
                 
                 resultDiv.innerHTML = '<h3 style="color: #28a745; margin-bottom: 20px;">Estimated Earnings</h3><div class="money-grid"><div class="money-card"><div class="money-label">Low Estimate</div><div class="money-value">$' + low.toFixed(2) + '</div></div><div class="money-card high"><div class="money-label">High Estimate</div><div class="money-value">$' + high.toFixed(2) + '</div></div></div>';
                 resultDiv.style.display = 'block';

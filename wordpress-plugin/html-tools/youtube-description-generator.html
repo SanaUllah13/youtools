@@ -71,7 +71,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         title: document.getElementById('title').value,
-                        keywords: document.getElementById('keywords').value,
+                        keywords: document.getElementById('keywords').value || undefined,
                         mode: document.getElementById('mode').value
                     })
                 });
