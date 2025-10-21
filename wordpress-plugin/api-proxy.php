@@ -101,6 +101,13 @@ $allowed_endpoints = [
     '/api/youtube/channel-analytics',
     '/api/youtube/money',
     '/api/youtube/transcript',
+    '/api/youtube/embed',
+    '/api/youtube/region-check',
+    '/api/youtube/niche-analyzer',
+    '/api/seo/keyword-density',
+    '/api/seo/text-compare',
+    '/api/seo/meta-analyze',
+    '/api/seo/adsense',
     '/api/tools/hashtags',
     '/api/tools/backwards',
 ];

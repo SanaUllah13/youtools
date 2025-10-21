@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyword Density Analyzer - YTProTools</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 30px; }
+        h1 { color: #333; margin-bottom: 10px; font-size: 28px; }
+        .description { color: #666; margin-bottom: 30px; font-size: 14px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 14px; }
+        textarea { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 15px; min-height: 200px; font-family: inherit; }
+        textarea:focus { outline: none; border-color: #CC0700; box-shadow: 0 0 0 3px rgba(204, 7, 0, 0.1); }
+        .btn { background: #CC0700; color: white; border: none; padding: 14px 32px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; width: 100%; }
+        .btn:hover { background: #a30600; }
+        .btn:disabled { background: #ccc; cursor: not-allowed; }
+        .error { background: #fff3cd; border: 2px solid #ffc107; color: #856404; padding: 20px; border-radius: 8px; margin-top: 20px; display: none; }
+        .result { margin-top: 30px; display: none; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; }
+        .stat-value { font-size: 32px; font-weight: 700; }
+        .stat-label { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        thead { background: #f8f9fa; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        th { font-weight: 600; color: #444; font-size: 14px; }
+        td { color: #666; }
+        .density-bar { background: #e0e0e0; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 4px; }
+        .density-fill { background: #CC0700; height: 100%; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Keyword Density Analyzer</h1>
+        <p class="description">Analyze keyword density in your text for better SEO optimization.</p>
+        
+        <form id="form">
+            <div class="form-group">
+                <label for="text">Your Text *</label>
+                <textarea id="text" placeholder="Paste your text here to analyze keyword density..." required></textarea>
+            </div>
+            <button type="submit" class="btn" id="submitBtn">Analyze Keywords</button>
+        </form>
+
+        <div id="error" class="error"></div>
+        <div id="result" class="result"></div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="index.html" style="color: #CC0700; text-decoration: none; font-size: 16px;">← Back to All Tools</a>
+        </div>
+    </div>
+
+    <script>
+        const PROXY_URL = 'https://ytprotools.com/api-proxy.php';
+        
+        document.getElementById('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            const submitBtn = document.getElementById('submitBtn');
+            const text = document.getElementById('text').value.trim();
+            
+            resultDiv.style.display = 'none';
+            errorDiv.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Analyzing...';
+
+            try {
+                const response = await fetch(`${PROXY_URL}?endpoint=/api/seo/keyword-density`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+                
+                const data = await response.json();
+                
+                if (data.error) throw new Error(data.detail || data.error);
+                
+                displayResults(data);
+                
+            } catch (error) {
+                errorDiv.innerHTML = `<strong>⚠️ Error:</strong> ${error.message}`;
+                errorDiv.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Analyze Keywords';
+            }
+        });
+
+        function displayResults(data) {
+            const resultDiv = document.getElementById('result');
+            const keywords = data.keywords || data.data?.keywords || [];
+            const stats = data.stats || data.data?.stats || {};
+            
+            let html = `
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.totalWords || 0}</div>
+                        <div class="stat-label">Total Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.uniqueWords || 0}</div>
+                        <div class="stat-label">Unique Words</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${stats.totalCharacters || 0}</div>
+                        <div class="stat-label">Characters</div>
+                    </div>
+                </div>
+
+                <h3 style="margin-bottom: 16px; color: #333;">Top Keywords</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Keyword</th>
+                            <th>Count</th>
+                            <th>Density</th>
+                            <th>Visual</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            keywords.slice(0, 20).forEach(kw => {
+                const density = ((kw.density || 0) * 100).toFixed(2);
+                html += `
+                    <tr>
+                        <td><strong>${escapeHtml(kw.word || kw.keyword)}</strong></td>
+                        <td>${kw.count || kw.frequency}</td>
+                        <td>${density}%</td>
+                        <td>
+                            <div class="density-bar">
+                                <div class="density-fill" style="width: ${Math.min(density * 10, 100)}%"></div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += '</tbody></table>';
+            
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
