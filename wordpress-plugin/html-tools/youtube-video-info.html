@@ -131,14 +131,21 @@
             };
 
             const formatDuration = (seconds) => {
-                if (!seconds) return 'N/A';
+                if (!seconds || seconds === 0) return 'N/A';
+                // Convert milliseconds to seconds if needed
+                if (seconds > 86400) {
+                    seconds = Math.floor(seconds / 1000);
+                }
                 const hrs = Math.floor(seconds / 3600);
                 const mins = Math.floor((seconds % 3600) / 60);
                 const secs = seconds % 60;
                 if (hrs > 0) {
-                    return `${hrs}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                    return `${hrs}h ${mins}m ${secs}s`;
                 }
-                return `${mins}:${secs.toString().padStart(2, '0')}`;
+                if (mins > 0) {
+                    return `${mins}m ${secs}s`;
+                }
+                return `${secs}s`;
             };
 
             const duration = data.lengthSeconds 
@@ -165,10 +172,17 @@
                 `;
             }
 
-            if (data.likes !== undefined) {
+            if (data.likes !== undefined && data.likes !== null && data.likes !== 0) {
                 html += `
                     <div class="stat-card">
                         <div class="stat-value">${formatNumber(data.likes)}</div>
+                        <div class="stat-label">Likes</div>
+                    </div>
+                `;
+            } else if (data.likes === 0) {
+                html += `
+                    <div class="stat-card">
+                        <div class="stat-value">Hidden</div>
                         <div class="stat-label">Likes</div>
                     </div>
                 `;
