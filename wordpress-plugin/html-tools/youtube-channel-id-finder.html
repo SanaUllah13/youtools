@@ -27,11 +27,11 @@
 <body>
     <div class="container">
         <h1>🔍 YouTube Channel ID Finder</h1>
-        <p class="description">Find the channel ID from a YouTube channel URL or handle.</p>
+        <p class="description">Find the channel ID from any YouTube video. Paste a video URL from the channel you want to find.</p>
         <form id="form">
             <div class="form-group">
-                <label for="channelUrl">YouTube Channel URL or Video URL</label>
-                <input type="url" id="channelUrl" placeholder="https://www.youtube.com/@channelname or video URL" required>
+                <label for="channelUrl">YouTube Video URL</label>
+                <input type="url" id="channelUrl" placeholder="https://www.youtube.com/watch?v=..." required>
             </div>
             <button type="submit" class="btn" id="submitBtn">Find Channel ID</button>
         </form>
@@ -61,13 +61,18 @@
                 
                 const channelId = data.channelId || data.data?.channelId || data.authorId || data.data?.authorId;
                 const channelName = data.author || data.data?.author || 'Unknown';
+                const videoTitle = data.title || data.data?.title || '';
                 
-                if (!channelId) throw new Error('Channel ID not found');
+                if (!channelId) throw new Error('Channel ID not found. Please make sure you entered a valid YouTube video URL.');
                 
                 let html = `<div style="background: white; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0;">`;
+                if (videoTitle) {
+                    html += `<div style="margin-bottom: 15px;"><strong style="color: #666;">Video:</strong><br><span style="font-size: 14px;">${escapeHtml(videoTitle)}</span></div>`;
+                }
                 html += `<div style="margin-bottom: 15px;"><strong style="color: #FF0000;">Channel Name:</strong><br><span style="font-size: 18px;">${escapeHtml(channelName)}</span></div>`;
                 html += `<div style="margin-bottom: 15px;"><strong style="color: #FF0000;">Channel ID:</strong><br><code style="background: #f5f5f5; padding: 10px; display: block; border-radius: 4px; font-size: 14px; word-break: break-all;">${escapeHtml(channelId)}</code></div>`;
-                html += `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))", data-text="${channelId}">📋 Copy Channel ID</button>`;
+                html += `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${channelId}">📋 Copy Channel ID</button>`;
+                html += `<div style="margin-top: 15px; padding: 10px; background: #e7f3ff; border-left: 4px solid #2196F3; color: #555; font-size: 13px;">💡 <strong>Tip:</strong> To find a channel ID, just paste any video URL from that channel.</div>`;
                 html += `</div>`;
                 
                 resultDiv.innerHTML = html;
