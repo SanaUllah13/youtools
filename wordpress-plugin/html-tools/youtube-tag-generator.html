@@ -12,10 +12,11 @@
         .description { color: #666; margin-bottom: 30px; font-size: 14px; }
         .form-group { margin-bottom: 20px; }
         label { display: block; margin-bottom: 8px; font-weight: 600; color: #444; font-size: 14px; }
-        input { width: 100%; padding: 12px 16px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 15px; }
-        input:focus { outline: none; border-color: #FF0000; }
-        .btn { background: #FF0000; color: white; border: none; padding: 14px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
-        .btn:hover { background: #CC0000; }
+        input, textarea, select { width: 100%; padding: 12px 16px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 15px; font-family: inherit; transition: border-color 0.2s; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: #CC0700; box-shadow: 0 0 0 3px rgba(204, 7, 0, 0.1); }
+        textarea { resize: vertical; }
+        .btn { background: #CC0700; color: white; border: none; padding: 14px 32px; border-radius: 6px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn:hover { background: #a30600; }
         .btn:disabled { background: #ccc; cursor: not-allowed; }
         .result, .error { margin-top: 30px; padding: 20px; border-radius: 8px; display: none; }
         .error { background: #fff3cd; border: 2px solid #ffc107; color: #856404; }
@@ -53,7 +54,7 @@
                 <input type="number" id="maxTags" value="25" min="5" max="50">
                 <small style="color: #666; font-size: 13px;">Number of tags to generate (5-50)</small>
             </div>
-            <button type="submit" class="btn" id="submitBtn" style="background: #0066ff;">Generate Tags</button>
+            <button type="submit" class="btn" id="submitBtn">Generate Tags</button>
         </form>
         <div id="error" class="error"></div>
         <div id="result" class="result"></div>
