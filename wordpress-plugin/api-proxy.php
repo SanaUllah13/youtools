@@ -35,6 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 // Rate limiting (simple file-based)
 function checkRateLimit() {
     $ip = $_SERVER['REMOTE_ADDR'];
+    
+    // Skip rate limiting for localhost/development
+    if (in_array($ip, ['127.0.0.1', '::1', 'localhost'])) {
+        return;
+    }
+    
     $cache_dir = sys_get_temp_dir() . '/youtools_rate_limit';
     $cache_file = $cache_dir . '/' . md5($ip);
     
@@ -44,7 +50,7 @@ function checkRateLimit() {
     
     $now = time();
     $window = 900; // 15 minutes
-    $max_requests = 50; // 50 requests per 15 minutes
+    $max_requests = 200; // 200 requests per 15 minutes (increased for development)
     
     if (file_exists($cache_file)) {
         $data = json_decode(file_get_contents($cache_file), true);
