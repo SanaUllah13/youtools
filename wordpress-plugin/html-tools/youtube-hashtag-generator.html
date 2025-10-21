@@ -32,11 +32,15 @@
         <p class="description">Generate relevant hashtags for your YouTube videos based on topic.</p>
         <form id="form">
             <div class="form-group">
-                <label for="topic">Video Topic *</label>
-                <input type="text" id="topic" placeholder="gaming, cooking, travel..." required>
+                <label for="title">Video Title *</label>
+                <input type="text" id="title" placeholder="how to grow on youtube within 30 days" required>
             </div>
             <div class="form-group">
-                <label for="max">Maximum Hashtags</label>
+                <label for="niche">Niche/Category *</label>
+                <input type="text" id="niche" placeholder="education" required>
+            </div>
+            <div class="form-group">
+                <label for="max">Max Hashtags</label>
                 <input type="number" id="max" value="15" min="5" max="30">
             </div>
             <button type="submit" class="btn" id="submitBtn">Generate Hashtags</button>
@@ -64,7 +68,8 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        topic: document.getElementById('topic').value,
+                        title: document.getElementById('title').value,
+                        niche: document.getElementById('niche').value,
                         max: parseInt(document.getElementById('max').value)
                     })
                 });
@@ -73,7 +78,8 @@
                 const hashtags = data.hashtags || data.data?.hashtags || [];
                 if (hashtags.length === 0) throw new Error('No hashtags generated');
                 
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(\'' + hashtags.join(' ') + '\').then(() => alert(\'Copied!\'))">📋 Copy All</button><div class="tags-container">';
+                const allHashtags = hashtags.join(' ');
+                let html = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${allHashtags.replace(/"/g, '&quot;')}">📋 Copy All</button><div class="tags-container">`;
                 hashtags.forEach(h => html += '<span class="tag">' + h + '</span>');
                 html += '</div><p style="margin-top:15px;color:#666;"><strong>' + hashtags.length + '</strong> hashtags generated</p>';
                 resultDiv.innerHTML = html;
