@@ -92,6 +92,7 @@ $allowed_endpoints = [
     '/api/youtube/title/generate',
     '/api/youtube/description/generate',
     '/api/youtube/channel-id',
+    '/api/youtube/channel-analytics',
     '/api/youtube/money',
     '/api/youtube/transcript',
     '/api/tools/hashtags',
