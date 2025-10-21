@@ -82,7 +82,7 @@
                 
                 const div = document.createElement('div');
                 div.textContent = desc;
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(`' + desc.replace(/`/g, '\\`') + '`).then(() => alert(\\'Copied!\\'))">📋 Copy Description</button>';
+                let html = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${desc.replace(/"/g, '&quot;')}">📋 Copy Description</button>`;
                 html += '<div class="text-box">' + div.innerHTML + '</div>';
                 resultDiv.innerHTML = html;
                 resultDiv.style.display = 'block';

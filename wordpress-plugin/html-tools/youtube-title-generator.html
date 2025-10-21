@@ -75,7 +75,8 @@
                 const titles = data.titles || data.data?.titles || [];
                 if (titles.length === 0) throw new Error('No titles generated');
                 
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(\\'' + titles.join('\\n\\n') + '\\').then(() => alert(\\'Copied!\\'))">📋 Copy All</button>';
+                const allTitles = titles.join('\n\n');
+                let html = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${allTitles.replace(/"/g, '&quot;')}">📋 Copy All</button>`;
                 titles.forEach(title => {
                     const div = document.createElement('div');
                     div.textContent = title;

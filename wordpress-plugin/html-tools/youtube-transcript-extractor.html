@@ -76,7 +76,7 @@
                 
                 const div = document.createElement('div');
                 div.textContent = text;
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(`' + text.replace(/`/g, '\\`') + '`).then(() => alert(\\'Copied!\\'))">📋 Copy Transcript</button>';
+                let html = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${text.replace(/"/g, '&quot;')}">📋 Copy Transcript</button>`;
                 html += '<div class="text-box">' + div.innerHTML + '</div>';
                 resultDiv.innerHTML = html;
                 resultDiv.style.display = 'block';

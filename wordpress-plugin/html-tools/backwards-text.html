@@ -65,7 +65,7 @@
                 const reversed = data.reversed || data.data?.reversed || '';
                 if (!reversed) throw new Error('Failed to reverse text');
                 
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(\'' + reversed + '\').then(() => alert(\'Copied!\'))">📋 Copy</button>';
+                let html = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${reversed.replace(/"/g, '&quot;')}">📋 Copy</button>`;
                 html += '<div class="text-box">' + reversed + '</div>';
                 resultDiv.innerHTML = html;
                 resultDiv.style.display = 'block';

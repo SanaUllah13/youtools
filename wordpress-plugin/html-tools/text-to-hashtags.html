@@ -66,7 +66,8 @@
                 const hashtags = data.hashtags || data.data?.hashtags || [];
                 if (hashtags.length === 0) throw new Error('No hashtags generated');
                 
-                let html = '<button class="copy-btn" onclick="navigator.clipboard.writeText(\'' + hashtags.join(' ') + '\').then(() => alert(\'Copied!\'))">📋 Copy All</button><div class="tags-container">';
+                const allHashtags = hashtags.join(' ');
+                let html = `<button class="copy-btn" onclick="navigator.clipboard.writeText(this.getAttribute('data-text')).then(() => alert('Copied!'))" data-text="${allHashtags.replace(/"/g, '&quot;')}">📋 Copy All</button><div class="tags-container">`;
                 hashtags.forEach(h => html += '<span class="tag">' + h + '</span>');
                 html += '</div><p style="margin-top:15px;color:#666;"><strong>' + hashtags.length + '</strong> hashtags generated</p>';
                 resultDiv.innerHTML = html;
